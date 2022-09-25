@@ -107,7 +107,7 @@ FavoritesFragment
 
 ## Animate Items
 
-<img width="300" alt="スクリーンショット 2022-09-25 16 31 40" src="https://user-images.githubusercontent.com/47273077/192133167-791b3c3f-3e48-4a97-a888-eb303ae5b94b.png">
+<img width="300" alt="スクリーンショット 2022-09-25 16 31 40" src="https://github.com/YamamotoDesu/UseItemdecorationOffsets/blob/main/app/2022-09-25%2016.27.19.gif">
 
 slide_from_bottom.xml
 ```xml
