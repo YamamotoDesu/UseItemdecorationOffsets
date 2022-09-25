@@ -34,6 +34,7 @@ class DividerItemDecoration(color: Int, private val heightInPixels: Int) : Recyc
 -------
 
 ## Challenge: Draw a Grid
+<img width="300" alt="スクリーンショット 2022-09-25 14 49 12" src="https://user-images.githubusercontent.com/47273077/192130277-80166a62-f528-4c26-93c8-036f22c45048.png">
 
 
 FavoritesFragment
