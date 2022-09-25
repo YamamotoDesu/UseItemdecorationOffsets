@@ -31,6 +31,12 @@ class DividerItemDecoration(color: Int, private val heightInPixels: Int) : Recyc
 
 ```
 
+-------
+
+## Challenge: Draw a Grid
+<img width="300" alt="スクリーンショット 2022-09-25 14 49 12" src="https://user-images.githubusercontent.com/47273077/192130277-80166a62-f528-4c26-93c8-036f22c45048.png">
+
+
 FavoritesFragment
 ```kt
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -45,3 +51,53 @@ FavoritesFragment
     }
   }
   ```
+  
+  CreatureActivity
+  ```kt
+    private fun setupFoods(){
+    foodRecyclerView.layoutManager = GridLayoutManager(this, 3, LinearLayoutManager.VERTICAL, false)
+    foodRecyclerView.adapter = adapter
+    val foods = CreatureStore.getCreatureFoods(creature)
+    adapter.updateFoods(foods)
+    val dividerWidthInPixels = resources.getDimensionPixelSize(R.dimen.list_item_divider_height)
+    foodRecyclerView.addItemDecoration(
+      FoodItemDecoration(
+        ContextCompat.getColor(this, R.color.black), dividerWidthInPixels
+      ))
+  }
+  ```
+  
+  ```kt
+  class FoodItemDecoration(color: Int, private val dividerWidthInPixels: Int) : RecyclerView.ItemDecoration() {
+
+    private val paint = Paint()
+
+    init {
+        paint.color = color
+        paint.isAntiAlias = true
+    }
+
+    override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
+        super.onDraw(c, parent, state)
+
+        val childCount = parent.childCount
+        for (i in 0 until childCount) {
+            val child = parent.getChildAt(i)
+            val params = child.layoutParams as RecyclerView.LayoutParams
+
+            var left = parent.paddingLeft
+            var right = parent.width - parent.paddingRight
+            var top = child.top + params.topMargin
+            var bottom = top + dividerWidthInPixels
+            c.drawRect(left.toFloat(), top.toFloat(), right.toFloat(), bottom.toFloat(), paint)
+
+            left = child.right - params.rightMargin
+            right = left + dividerWidthInPixels
+            top = parent.paddingTop
+            bottom = parent.height - parent.paddingBottom
+
+            c.drawRect(left.toFloat(), top.toFloat(), right.toFloat(), bottom.toFloat(), paint)
+        }
+    }
+}
+```
