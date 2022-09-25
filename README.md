@@ -101,3 +101,76 @@ FavoritesFragment
     }
 }
 ```
+
+
+------
+
+## Animate Items
+slide_from_bottom.xml
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+    <translate
+        android:duration="@android:integer/config_mediumAnimTime"
+        android:fromYDelta="50%p"
+        android:toYDelta="0" />
+
+    <alpha
+        android:duration="@android:integer/config_mediumAnimTime"
+        android:fromAlpha="0.0"
+        android:toAlpha="1.0"/>
+</set>
+```
+
+slide_from_top.xml
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+    <translate
+        android:duration="@android:integer/config_mediumAnimTime"
+        android:fromYDelta="-50%p"
+        android:toYDelta="0" />
+
+    <alpha
+        android:duration="@android:integer/config_mediumAnimTime"
+        android:fromAlpha="0.0"
+        android:toAlpha="1.0"/>
+</set>
+```
+
+```kt
+class CreatureCardAdapter(private val creatures: MutableList<Creature>): RecyclerView.Adapter<CreatureCardAdapter.ViewHolder>() {
+
+    enum class ScrollDirection {
+        UP, DOWN
+    }
+    var scrollDirection = ScrollDirection.DOWN
+
+    inner class ViewHolder(itemView: View) : View.OnClickListener, RecyclerView.ViewHolder(itemView) {
+    
+    // 中略
+    }
+    
+    private fun animateView(viewToAnimate: View) {
+            val animId = if (scrollDirection == ScrollDirection.DOWN) R.anim.slide_from_bottom else R.anim.slide_from_top
+            if (viewToAnimate.animation == null) {
+                val animation = AnimationUtils.loadAnimation(viewToAnimate.context, animId)
+                viewToAnimate.animation = animation
+            }
+        }
+       
+```
+
+AllFragment
+```kt
+    creatureRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+      override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+        super.onScrolled(recyclerView, dx, dy)
+        adapter.scrollDirection = if (dy > 0) {
+          CreatureCardAdapter.ScrollDirection.DOWN
+        } else {
+          CreatureCardAdapter.ScrollDirection.UP
+        }
+      }
+    })
+```
