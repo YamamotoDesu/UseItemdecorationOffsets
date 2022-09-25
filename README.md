@@ -151,6 +151,16 @@ class CreatureCardAdapter(private val creatures: MutableList<Creature>): Recycle
     // 中略
     }
     
+    fun bind(creature: Creature) {
+            this.creature = creature
+            val context = itemView.context
+            val imageResource = context.resources.getIdentifier(creature.uri, null, context.packageName)
+            itemView.creatureImage.setImageResource(imageResource)
+            itemView.fullName.text = creature.fullName
+            setBackgroundColors(context, imageResource)
+            animateView(itemView)
+    }
+    
     private fun animateView(viewToAnimate: View) {
             val animId = if (scrollDirection == ScrollDirection.DOWN) R.anim.slide_from_bottom else R.anim.slide_from_top
             if (viewToAnimate.animation == null) {
